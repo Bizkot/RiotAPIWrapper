@@ -3,7 +3,7 @@ const superagent = require('superagent');
 module.exports.run = async (iconFull) => {
 	let {icon} = {};
 	const url = `http://ddragon.leagueoflegends.com/cdn/8.24.1/img/ui/${iconFull}.png`;
-	superagent
+	await superagent
 		.get(url)
 		.then(res => {
 			icon = res.body;

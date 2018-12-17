@@ -3,7 +3,7 @@ const superagent = require('superagent');
 module.exports.run = async (abilityFull) => {
 	let {championAbility} = {};
 	const url = `http://ddragon.leagueoflegends.com/cdn/8.24.1/img/spell/${abilityFull}.png`;
-	superagent
+	await superagent
 		.get(url)
 		.then(res => {
 			championAbility = res.body;

@@ -1,14 +1,14 @@
 const superagent = require('superagent');
 
 module.exports.run = async (championName, skinNumber) => {
-	let {loadingScreenArt} = {};
-	const url = `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championName}_${skinNumber}.jpg`;
-	superagent
+	let {splashArt} = {};
+	const url = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championName}_${skinNumber}.jpg`;
+	await superagent
 		.get(url)
 		.then(res => {
-			loadingScreenArt = res.body;
+			splashArt = res.body;
 			console.log(url);
-			console.log(loadingScreenArt);
+			console.log(splashArt);
 		})
 		.catch(err => {
 			console.log('Err', err.message);

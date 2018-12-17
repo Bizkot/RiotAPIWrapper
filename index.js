@@ -1,12 +1,12 @@
-const profileIcon = require('./DataDragonAPI/Image&DataURLs/profileIcon');
-const championSplashArt = require('./DataDragonAPI/Image&DataURLs/championSplashArt');
-const championLoadingScreenArt = require('./DataDragonAPI/Image&DataURLs/championLoadingScreenArt');
-const championSquare = require('./DataDragonAPI/Image&DataURLs/championSquare');
-const passiveAbility = require('./DataDragonAPI/Image&DataURLs/passiveAbility');
-const championAbility = require('./DataDragonAPI/Image&DataURLs/championAbility');
-const summonerSpell = require('./DataDragonAPI/Image&DataURLs/summonerSpell');
-const item = require('./DataDragonAPI/Image&DataURLs/item');
-const sprite = require('./DataDragonAPI/Image&DataURLs/sprite');
+const profileIcon = require('./DataDragonAPI/ImageURLs/profileIcon');
+const championSplashArt = require('./DataDragonAPI/ImageURLs/championSplashArt');
+const championLoadingScreenArt = require('./DataDragonAPI/ImageURLs/championLoadingScreenArt');
+const championSquare = require('./DataDragonAPI/ImageURLs/championSquare');
+const passiveAbility = require('./DataDragonAPI/ImageURLs/passiveAbility');
+const championAbility = require('./DataDragonAPI/ImageURLs/championAbility');
+const summonerSpell = require('./DataDragonAPI/ImageURLs/summonerSpell');
+const item = require('./DataDragonAPI/ImageURLs/item');
+const sprite = require('./DataDragonAPI/ImageURLs/sprite');
 
 profileIcon.run(22); // OK
 profileIcon.run(35); // KO
