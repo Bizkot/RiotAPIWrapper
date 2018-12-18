@@ -39,8 +39,20 @@
 // sprite.run('spell0'); // OK
 // sprite.run('spell100'); // KO
 
-const champions = require('./DataDragonAPI/Data/champions');
-const individualChampion = require('./DataDragonAPI/Data/individualChampion');
+// const champions = require('./DataDragonAPI/Data/champions');
+// const individualChampion = require('./DataDragonAPI/Data/individualChampion');
+// const profileIcons = require('./DataDragonAPI/Data/profileIcons');
+// const items = require('./DataDragonAPI/Data/items');
+// const masteries = require('./DataDragonAPI/Data/masteries');
+// const runes = require('./DataDragonAPI/Data/runes');
+// const runesReforged = require('./DataDragonAPI/Data/runesReforged');
+const summonerSpells = require('./DataDragonAPI/Data/summonerSpells');
 
-individualChampion.run('Aatrox');
-champions.run();
+// individualChampion.run('Aatrox');
+// champions.run();
+// profileIcons.run();
+// items.run();
+// masteries.run();
+// runes.run();
+// runesReforged.run();
+summonerSpells.run();
