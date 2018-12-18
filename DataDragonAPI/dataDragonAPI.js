@@ -1,5 +1,5 @@
 const superagent = require('superagent');
-const champions = require('./Data/champions.js');
+const staticData = require('./staticData');
 
 let endPoint = '';
 let version = '';
@@ -85,7 +85,7 @@ module.exports.run = function() {
 		initByVersion('8.24.1')
 			.then(params => {
 				// console.log(params['version'], params['endPoint']);
-				champions.getStaticChampions(loadStaticData);
+				staticData.getStaticChampions(loadStaticData);
 			})
 			.catch(err => {
 				throw new Error(err.message);
