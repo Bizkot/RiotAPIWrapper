@@ -1,5 +1,4 @@
 const superagent = require('superagent');
-const staticData = require('./staticData');
 
 let endPoint = '';
 let version = '';
@@ -58,7 +57,7 @@ function initByRegion(region) {
 }
 
 function initByVersion(initVersion) {
-	return new Promise(function(resolve, reject) {
+	return new Promise(function(resolve) {
 		version = initVersion;
 		endPoint = getCdnURL();
 		resolve({
@@ -69,23 +68,27 @@ function initByVersion(initVersion) {
 }
 
 function loadStaticData(dataType, key = '', locale = 'fr_FR', fragment = '') {
-	const dataFileURL = getCdnURL() + `${version}/data/${locale}/${dataType}${key}.json${fragment}`;
-	superagent
-		.get(dataFileURL)
-		.then(res => {
-			console.log(res.body);
-		})
-		.catch(err => {
-			throw new Error(err.message);
-		});
+	return new Promise(function(resolve, reject) {
+		const dataFileURL = getCdnURL() + `${version}/data/${locale}/${dataType}${key}.json${fragment}`;
+		superagent
+			.get(dataFileURL)
+			.then(res => {
+				resolve(res.body);
+			})
+			.catch(err => {
+				reject(err);
+			});
+	});
 }
 
 module.exports.run = function() {
 	try  {
 		initByVersion('8.24.1')
-			.then(params => {
-				// console.log(params['version'], params['endPoint']);
-				staticData.getStaticChampions(loadStaticData);
+			.then(() => {
+				loadStaticData('champion')
+					.then(data => {
+						console.log(data);
+					});
 			})
 			.catch(err => {
 				throw new Error(err.message);
