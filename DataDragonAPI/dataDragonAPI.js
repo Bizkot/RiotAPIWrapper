@@ -189,5 +189,7 @@ module.exports = {
 	getStaticProfileIcon: getStaticProfileIcon,
 	getStaticRunesReforged: getStaticRunesReforged,
 	getStaticRuneReforged: getStaticRuneReforged,
+	getStaticSummonerSpells: getStaticSummonerSpells,
+	getStaticSummonerSpell: getStaticSummonerSpell,
 	run: run
 };
