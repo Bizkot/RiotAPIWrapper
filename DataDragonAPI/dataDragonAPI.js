@@ -19,7 +19,7 @@ function getStaticChampions(version, locale = 'fr_FR') {
 }
 
 function getStaticIndividualChampion(championName, version, locale = 'fr_FR') {
-	const dataFileURL = urlResolver.getStaticDataFileURL('champion', version, locale);
+	const dataFileURL = urlResolver.getStaticDataFileURL('champion/', version, locale, championName);
 	return loadStaticData(dataFileURL);
 }
 
@@ -162,7 +162,7 @@ function run() {
 	try {
 		initializer.initByVersion('8.24.1')
 			.then(init => {
-				getStaticSummonerSpell('21', init['version'])
+				getStaticChampionById('266', init['version'])
 					.then(data => {
 						console.log(data);
 					});
