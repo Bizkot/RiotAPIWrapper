@@ -81,11 +81,30 @@ function getStaticMastery(masteryId, version = '7.23.1', locale = 'fr_FR') {
 	});
 }
 
+function getStaticRunes(version = '7.23.1', locale = 'fr_FR') {
+	const dataFileURL = urlResolver.getStaticDataFileURL('rune', version, locale);
+	return loadStaticData(dataFileURL);
+}
+
+function getStaticRune(runeId, version = '7.23.1', locale = 'fr_FR') {
+	return new Promise(function(resolve, reject) {
+		getStaticRunes(version, locale)
+			.then(runes => {
+				Object.keys(runes.data).forEach(id => {
+					if (runeId === id) {
+						resolve(runes.data[id]);
+					}
+				});
+			})
+			.catch(reject);
+	});
+}
+
 function run() {
 	try {
 		initializer.initByVersion('8.24.1')
 			.then(init => {
-				getStaticItems(init['version'])
+				getStaticRune('10001')
 					.then(data => {
 						console.log(data);
 					});
@@ -106,5 +125,7 @@ module.exports = {
 	getStaticItem: getStaticItem,
 	getStaticMasteries: getStaticMasteries,
 	getStaticMastery: getStaticMastery,
+	getStaticRunes: getStaticRunes,
+	getStaticRune: getStaticRune,
 	run: run
 };
