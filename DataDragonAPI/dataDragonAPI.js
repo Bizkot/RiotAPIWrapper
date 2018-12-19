@@ -19,14 +19,8 @@ function getStaticChampions(version, locale = 'fr_FR') {
 }
 
 function getStaticIndividualChampion(championName, version, locale = 'fr_FR') {
-	return new Promise(function(resolve, reject) {
-		const dataFileURL = urlResolver.getStaticDataFileURL('champion', version, locale);
-		loadStaticData(dataFileURL)
-			.then(individualChampion => {
-				resolve(individualChampion);
-			})
-			.catch(reject);
-	});
+	const dataFileURL = urlResolver.getStaticDataFileURL('champion', version, locale);
+	return loadStaticData(dataFileURL);
 }
 
 function getStaticChampionById(championId, version, locale = 'fr_FR') {
@@ -145,11 +139,30 @@ function getStaticRuneReforged(runeReforgedId, version, locale = 'fr_FR') {
 	});
 }
 
+function getStaticSummonerSpells(version, locale = 'fr_FR') {
+	const dataFileURL = urlResolver.getStaticDataFileURL('summoner', version, locale);
+	return loadStaticData(dataFileURL);
+}
+
+function getStaticSummonerSpell(summonerSpellId, version, locale = 'fr_FR') {
+	return new Promise(function(resolve, reject) {
+		getStaticSummonerSpells(version, locale)
+			.then(summonerSpells => {
+				Object.keys(summonerSpells.data).forEach(sumonnerSpellName => {
+					if (summonerSpellId === summonerSpells.data[sumonnerSpellName].key) {
+						resolve(summonerSpells.data[sumonnerSpellName]);
+					}
+				});
+			})
+			.catch(reject);
+	});
+}
+
 function run() {
 	try {
 		initializer.initByVersion('8.24.1')
 			.then(init => {
-				getStaticRuneReforged(8306, init['version'])
+				getStaticSummonerSpell('21', init['version'])
 					.then(data => {
 						console.log(data);
 					});
