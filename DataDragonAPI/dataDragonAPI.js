@@ -9,23 +9,13 @@ function loadStaticData(dataFileURL) {
 			.then(res => {
 				resolve(res.body);
 			})
-			.catch(err => {
-				reject(err);
-			});
+			.catch(reject);
 	});
 }
 
 function getStaticChampions(version, locale = 'fr_FR') {
-	return new Promise(function(resolve, reject) {
-		const dataFileURL = urlResolver.getStaticDataFileURL('champion', version, locale);
-		loadStaticData(dataFileURL)
-			.then(champions => {
-				resolve(champions);
-			})
-			.catch(err => {
-				reject(err);
-			});
-	});
+	const dataFileURL = urlResolver.getStaticDataFileURL('champion', version, locale);
+	return loadStaticData(dataFileURL);
 }
 
 function getStaticIndividualChampion(championName, version, locale = 'fr_FR') {
@@ -35,9 +25,7 @@ function getStaticIndividualChampion(championName, version, locale = 'fr_FR') {
 			.then(individualChampion => {
 				resolve(individualChampion);
 			})
-			.catch(err => {
-				reject(err);
-			});
+			.catch(reject);
 	});
 }
 
@@ -51,23 +39,13 @@ function getStaticChampionById(championId, version, locale = 'fr_FR') {
 					}
 				});
 			})
-			.catch(err => {
-				reject(err);
-			});
+			.catch(reject);
 	});
 }
 
 function getStaticItems(version, locale = 'fr_FR') {
-	return new Promise(function(resolve, reject) {
-		const dataFileURL = urlResolver.getStaticDataFileURL('item', version, locale);
-		loadStaticData(dataFileURL)
-			.then(items => {
-				resolve(items);
-			})
-			.catch(err => {
-				reject(err);
-			});
-	});
+	const dataFileURL = urlResolver.getStaticDataFileURL('item', version, locale);
+	return loadStaticData(dataFileURL);
 }
 
 function getStaticItem(itemId, version, locale = 'fr_FR') {
@@ -80,23 +58,13 @@ function getStaticItem(itemId, version, locale = 'fr_FR') {
 					}
 				});
 			})
-			.catch(err => {
-				reject(err);
-			});
+			.catch(reject);
 	});
 }
 
 function getStaticMasteries(version = '7.23.1', locale = 'fr_FR') {
-	return new Promise(function(resolve, reject) {
-		const dataFileURL = urlResolver.getStaticDataFileURL('mastery', version, locale);
-		loadStaticData(dataFileURL)
-			.then(masteries => {
-				resolve(masteries);
-			})
-			.catch(err => {
-				reject(err);
-			});
-	});
+	const dataFileURL = urlResolver.getStaticDataFileURL('mastery', version, locale);
+	return loadStaticData(dataFileURL);
 }
 
 function getStaticMastery(masteryId, version = '7.23.1', locale = 'fr_FR') {
@@ -109,9 +77,7 @@ function getStaticMastery(masteryId, version = '7.23.1', locale = 'fr_FR') {
 					}
 				});
 			})
-			.catch(err => {
-				reject(err);
-			});
+			.catch(reject);
 	});
 }
 
@@ -119,7 +85,7 @@ function run() {
 	try {
 		initializer.initByVersion('8.24.1')
 			.then(init => {
-				getStaticMastery('6351')
+				getStaticItems(init['version'])
 					.then(data => {
 						console.log(data);
 					});
@@ -138,5 +104,7 @@ module.exports = {
 	getStaticChampionById: getStaticChampionById,
 	getStaticItems: getStaticItems,
 	getStaticItem: getStaticItem,
+	getStaticMasteries: getStaticMasteries,
+	getStaticMastery: getStaticMastery,
 	run: run
 };
