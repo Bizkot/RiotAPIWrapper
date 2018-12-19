@@ -86,11 +86,40 @@ function getStaticItem(itemId, version, locale = 'fr_FR') {
 	});
 }
 
+function getStaticMasteries(version = '7.23.1', locale = 'fr_FR') {
+	return new Promise(function(resolve, reject) {
+		const dataFileURL = urlResolver.getStaticDataFileURL('mastery', version, locale);
+		loadStaticData(dataFileURL)
+			.then(masteries => {
+				resolve(masteries);
+			})
+			.catch(err => {
+				reject(err);
+			});
+	});
+}
+
+function getStaticMastery(masteryId, version = '7.23.1', locale = 'fr_FR') {
+	return new Promise(function(resolve, reject) {
+		getStaticMasteries(version, locale)
+			.then(masteries => {
+				Object.keys(masteries.data).forEach(id => {
+					if (masteryId === id) {
+						resolve(masteries.data[id]);
+					}
+				});
+			})
+			.catch(err => {
+				reject(err);
+			});
+	});
+}
+
 function run() {
 	try {
 		initializer.initByVersion('8.24.1')
 			.then(init => {
-				getStaticItem('1001', init['version'])
+				getStaticMastery('6351')
 					.then(data => {
 						console.log(data);
 					});
