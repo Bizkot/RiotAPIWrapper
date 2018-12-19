@@ -92,7 +92,7 @@ function getStaticRune(runeId, version = '7.23.1', locale = 'fr_FR') {
 			.then(runes => {
 				Object.keys(runes.data).forEach(id => {
 					if (runeId === id) {
-						resolve(runes.data[id]);
+						return resolve(runes.data[id]);
 					}
 				});
 			})
@@ -111,8 +111,34 @@ function getStaticProfileIcon(iconId, version, locale = 'fr_FR') {
 			.then(icons => {
 				Object.keys(icons.data).forEach(id => {
 					if (iconId === id) {
-						resolve(icons.data[id]);
+						return resolve(icons.data[id]);
 					}
+				});
+			})
+			.catch(reject);
+	});
+}
+
+function getStaticRunesReforged(version, locale = 'fr_FR') {
+	const dataFileURL = urlResolver.getStaticDataFileURL('runesReforged', version, locale);
+	return loadStaticData(dataFileURL);
+}
+
+function getStaticRuneReforged(runeReforgedId, version, locale = 'fr_FR') {
+	return new Promise(function(resolve, reject) {
+		getStaticRunesReforged(version, locale)
+			.then(runesReforged => {
+				runesReforged.forEach(rune => {
+					if (runeReforgedId === rune.id) {
+						return resolve(rune);
+					}
+					rune.slots.forEach(slot => {
+						slot.runes.forEach(rune => {
+							if (runeReforgedId === rune.id) {
+								return resolve(rune);
+							}
+						});
+					});
 				});
 			})
 			.catch(reject);
@@ -123,7 +149,7 @@ function run() {
 	try {
 		initializer.initByVersion('8.24.1')
 			.then(init => {
-				getStaticProfileIcon('3836', init['version'])
+				getStaticRuneReforged(8306, init['version'])
 					.then(data => {
 						console.log(data);
 					});
@@ -148,5 +174,7 @@ module.exports = {
 	getStaticRune: getStaticRune,
 	getStaticProfileIcons: getStaticProfileIcons,
 	getStaticProfileIcon: getStaticProfileIcon,
+	getStaticRunesReforged: getStaticRunesReforged,
+	getStaticRuneReforged: getStaticRuneReforged,
 	run: run
 };
