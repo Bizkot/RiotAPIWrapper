@@ -2,6 +2,8 @@ const superagent = require('superagent');
 const initializer = require('./initializer');
 const urlResolver = require('./urlResolver');
 
+let version = '';
+
 function loadStaticData(dataFileURL) {
 	return new Promise(function(resolve, reject) {
 		superagent
@@ -13,17 +15,18 @@ function loadStaticData(dataFileURL) {
 	});
 }
 
-function getStaticChampions(version, locale = 'fr_FR') {
+function getStaticChampions(locale = 'fr_FR') {
 	const dataFileURL = urlResolver.getStaticDataFileURL('champion', version, locale);
+	console.log(dataFileURL);
 	return loadStaticData(dataFileURL);
 }
 
-function getStaticIndividualChampion(championName, version, locale = 'fr_FR') {
+function getStaticIndividualChampion(championName, locale = 'fr_FR') {
 	const dataFileURL = urlResolver.getStaticDataFileURL('champion/', version, locale, championName);
 	return loadStaticData(dataFileURL);
 }
 
-function getStaticChampionById(championId, version, locale = 'fr_FR') {
+function getStaticChampionById(championId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticChampions(version, locale)
 			.then(champions => {
@@ -37,12 +40,12 @@ function getStaticChampionById(championId, version, locale = 'fr_FR') {
 	});
 }
 
-function getStaticItems(version, locale = 'fr_FR') {
+function getStaticItems(locale = 'fr_FR') {
 	const dataFileURL = urlResolver.getStaticDataFileURL('item', version, locale);
 	return loadStaticData(dataFileURL);
 }
 
-function getStaticItem(itemId, version, locale = 'fr_FR') {
+function getStaticItem(itemId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticItems(version, locale)
 			.then(items => {
@@ -94,12 +97,12 @@ function getStaticRune(runeId, version = '7.23.1', locale = 'fr_FR') {
 	});
 }
 
-function getStaticProfileIcons(version, locale = 'fr_FR') {
+function getStaticProfileIcons(locale = 'fr_FR') {
 	const dataFileURL = urlResolver.getStaticDataFileURL('profileicon', version, locale);
 	return loadStaticData(dataFileURL);
 }
 
-function getStaticProfileIcon(iconId, version, locale = 'fr_FR') {
+function getStaticProfileIcon(iconId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticProfileIcons(version, locale)
 			.then(icons => {
@@ -113,12 +116,12 @@ function getStaticProfileIcon(iconId, version, locale = 'fr_FR') {
 	});
 }
 
-function getStaticRunesReforged(version, locale = 'fr_FR') {
+function getStaticRunesReforged(locale = 'fr_FR') {
 	const dataFileURL = urlResolver.getStaticDataFileURL('runesReforged', version, locale);
 	return loadStaticData(dataFileURL);
 }
 
-function getStaticRuneReforged(runeReforgedId, version, locale = 'fr_FR') {
+function getStaticRuneReforged(runeReforgedId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticRunesReforged(version, locale)
 			.then(runesReforged => {
@@ -139,12 +142,12 @@ function getStaticRuneReforged(runeReforgedId, version, locale = 'fr_FR') {
 	});
 }
 
-function getStaticSummonerSpells(version, locale = 'fr_FR') {
+function getStaticSummonerSpells(locale = 'fr_FR') {
 	const dataFileURL = urlResolver.getStaticDataFileURL('summoner', version, locale);
 	return loadStaticData(dataFileURL);
 }
 
-function getStaticSummonerSpell(summonerSpellId, version, locale = 'fr_FR') {
+function getStaticSummonerSpell(summonerSpellId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticSummonerSpells(version, locale)
 			.then(summonerSpells => {
@@ -158,21 +161,22 @@ function getStaticSummonerSpell(summonerSpellId, version, locale = 'fr_FR') {
 	});
 }
 
-function run() {
-	try {
-		initializer.initByVersion('8.24.1')
-			.then(init => {
-				getStaticChampionById('266', init['version'])
-					.then(data => {
-						console.log(data);
-					});
-			})
-			.catch(err => {
-				throw new Error(err.message);
-			});
-	} catch(err) {
-		console.error(err.message);
-	}
+function initByCdn() {
+	return initializer.initByCdn()
+		.then(v => {
+			version = v;
+		});
+}
+
+function initByRegion(region) {
+	return initializer.initByRegion(region)
+		.then(v => {
+			version = v;
+		});
+}
+
+function initByVersion(initVersion) {
+	version = initVersion;
 }
 
 module.exports = {
@@ -191,5 +195,7 @@ module.exports = {
 	getStaticRuneReforged: getStaticRuneReforged,
 	getStaticSummonerSpells: getStaticSummonerSpells,
 	getStaticSummonerSpell: getStaticSummonerSpell,
-	run: run
+	initByCdn: initByCdn,
+	initByRegion: initByRegion,
+	initByVersion: initByVersion
 };

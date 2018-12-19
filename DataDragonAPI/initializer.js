@@ -1,24 +1,17 @@
 const superagent = require('superagent');
 const urlResolver = require('./urlResolver');
 
-let endPoint = '';
-let version = '';
-
 function initByCdn() {
 	return new Promise((resolve, reject) => {
 		const versionsURL = 'https://ddragon.leagueoflegends.com/api/versions.json';
 		superagent
 			.get(versionsURL)
 			.then(res => {
-				version = res.body[0];
-				resolve(version);
+				resolve(res.body[0]);
 			})
 			.catch(err => {
 				reject(err);
 			});
-
-		endPoint = urlResolver.getCdnURL();
-
 	});
 }
 
@@ -30,12 +23,7 @@ function initByRegion(region) {
 		superagent
 			.get(regionURL)
 			.then(res => {
-				version = res.body['dd'];
-				endPoint = res.body['cdn'] + '/';
-				resolve({
-					version: version,
-					endPoint: endPoint
-				});
+				resolve(res.body['dd']);
 			})
 			.catch(err => {
 				reject(err);
@@ -43,19 +31,14 @@ function initByRegion(region) {
 	});
 }
 
-function initByVersion(initVersion) {
-	return new Promise(function(resolve) {
-		version = initVersion;
-		endPoint = urlResolver.getCdnURL();
-		resolve({
-			version: version,
-			endPoint: endPoint
-		});
-	});
-}
+// function initByVersion(initVersion) {
+// 	return new Promise(function(resolve) {
+// 		resolve(initVersion);
+// 	});
+// }
 
 module.exports = {
 	initByCdn: initByCdn,
 	initByRegion: initByRegion,
-	initByVersion: initByVersion
+	// initByVersion: initByVersion
 };
