@@ -1,5 +1,6 @@
-#Exemples JSON
-examples/
+# Riot API Key
+idRiot
+
 # Logs
 logs
 *.log
