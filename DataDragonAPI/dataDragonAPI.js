@@ -100,11 +100,30 @@ function getStaticRune(runeId, version = '7.23.1', locale = 'fr_FR') {
 	});
 }
 
+function getStaticProfileIcons(version, locale = 'fr_FR') {
+	const dataFileURL = urlResolver.getStaticDataFileURL('profileicon', version, locale);
+	return loadStaticData(dataFileURL);
+}
+
+function getStaticProfileIcon(iconId, version, locale = 'fr_FR') {
+	return new Promise(function(resolve, reject) {
+		getStaticProfileIcons(version, locale)
+			.then(icons => {
+				Object.keys(icons.data).forEach(id => {
+					if (iconId === id) {
+						resolve(icons.data[id]);
+					}
+				});
+			})
+			.catch(reject);
+	});
+}
+
 function run() {
 	try {
 		initializer.initByVersion('8.24.1')
 			.then(init => {
-				getStaticRune('10001')
+				getStaticProfileIcon('3836', init['version'])
 					.then(data => {
 						console.log(data);
 					});
@@ -127,5 +146,7 @@ module.exports = {
 	getStaticMastery: getStaticMastery,
 	getStaticRunes: getStaticRunes,
 	getStaticRune: getStaticRune,
+	getStaticProfileIcons: getStaticProfileIcons,
+	getStaticProfileIcon: getStaticProfileIcon,
 	run: run
 };
