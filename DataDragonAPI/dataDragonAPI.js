@@ -217,8 +217,12 @@ function getChampionAbilityURL(abilityFull) {
 	return urlResolver.getImageURL('spell', version, abilityFull);
 }
 
-function getChampionSquareURL(championName) {
-	return urlResolver.getImageURL('champion', version, championName);
+function getChampionSquareURL(championFull) {
+	return urlResolver.getImageURL('champion', version, championFull);
+}
+
+function getItemURL(itemFull) {
+	return urlResolver.getImageURL('item', version, itemFull);
 }
 
 function initByCdn() {
@@ -257,6 +261,7 @@ module.exports = {
 	getStaticSummonerSpell: getStaticSummonerSpell,
 	getChampionAbilityURL: getChampionAbilityURL,
 	getChampionSquareURL: getChampionSquareURL,
+	getItemURL: getItemURL,
 	initByCdn: initByCdn,
 	initByRegion: initByRegion,
 	initByVersion: initByVersion

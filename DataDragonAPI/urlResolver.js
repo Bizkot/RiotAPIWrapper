@@ -17,7 +17,7 @@ function getStaticDataFileURL(dataType, version, locale = 'fr_FR', key = '') {
 }
 
 function getImageURL(imageType, version, key) {
-	return getCdnURL() + `${version}/img/${imageType}/${key}.png`;
+	return getCdnURL() + `${version}/img/${imageType}/${key}`;
 }
 
 module.exports = {
