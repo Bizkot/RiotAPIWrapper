@@ -1,8 +1,10 @@
 const superagent = require('superagent');
 const initializer = require('./initializer');
 const urlResolver = require('./urlResolver');
+
 const LoadingStaticDataException = require('./Exceptions/LoadingStaticDataException');
 const ChampionByIdException = require('./Exceptions/ChampionByIdException');
+const ItemByIdException = require('./Exceptions/ItemByIdException');
 
 let version = '';
 
@@ -58,11 +60,17 @@ function getStaticItem(itemId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticItems(locale)
 			.then(items => {
+				let item;
 				Object.keys(items.data).forEach(id => {
 					if (itemId === id) {
-						resolve(items.data[id]);
+						item = items.data[id];
 					}
 				});
+				if (item) {
+					resolve(item);
+				} else {
+					throw new ItemByIdException(`Item with ID ${itemId} not found`, 404);
+				}
 			})
 			.catch(reject);
 	});
