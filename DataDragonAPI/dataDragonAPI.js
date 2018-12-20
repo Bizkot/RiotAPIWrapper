@@ -8,6 +8,7 @@ const ItemByIdException = require('./Exceptions/ItemByIdException');
 const MasteryByIdException = require('./Exceptions/MasteryByIdException');
 const RuneByIdException = require('./Exceptions/RuneByIdException');
 const ProfileIconByIdException = require('./Exceptions/ProfileIconByIdException');
+const RuneReforgedByIdException = require('./Exceptions/RuneReforgedByIdException');
 
 let version = '';
 
@@ -163,18 +164,24 @@ function getStaticRuneReforged(runeReforgedId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticRunesReforged(locale)
 			.then(runesReforged => {
+				let runeReforged;
 				runesReforged.forEach(rune => {
 					if (runeReforgedId === rune.id) {
-						return resolve(rune);
+						runeReforged = rune;
 					}
 					rune.slots.forEach(slot => {
 						slot.runes.forEach(rune => {
 							if (runeReforgedId === rune.id) {
-								return resolve(rune);
+								runeReforged = rune;
 							}
 						});
 					});
 				});
+				if (runeReforged) {
+					resolve(runeReforged);
+				} else {
+					throw new RuneReforgedByIdException(`Rune reforged with ID ${runeReforgedId} not found`, 404);
+				}
 			})
 			.catch(reject);
 	});
