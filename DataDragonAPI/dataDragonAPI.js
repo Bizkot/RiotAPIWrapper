@@ -213,6 +213,14 @@ function getStaticSummonerSpell(summonerSpellId, locale = 'fr_FR') {
 	});
 }
 
+function getChampionAbilityURL(abilityFull) {
+	return urlResolver.getImageURL('spell', version, abilityFull);
+}
+
+function getChampionSquareURL(championName) {
+	return urlResolver.getImageURL('champion', version, championName);
+}
+
 function initByCdn() {
 	return initializer.initByCdn()
 		.then(v => {
@@ -247,6 +255,8 @@ module.exports = {
 	getStaticRuneReforged: getStaticRuneReforged,
 	getStaticSummonerSpells: getStaticSummonerSpells,
 	getStaticSummonerSpell: getStaticSummonerSpell,
+	getChampionAbilityURL: getChampionAbilityURL,
+	getChampionSquareURL: getChampionSquareURL,
 	initByCdn: initByCdn,
 	initByRegion: initByRegion,
 	initByVersion: initByVersion
