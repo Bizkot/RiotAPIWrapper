@@ -6,6 +6,7 @@ const LoadingStaticDataException = require('./Exceptions/LoadingStaticDataExcept
 const ChampionByIdException = require('./Exceptions/ChampionByIdException');
 const ItemByIdException = require('./Exceptions/ItemByIdException');
 const MasteryByIdException = require('./Exceptions/MasteryByIdException');
+const RuneByIdException = require('./Exceptions/RuneByIdException');
 
 let version = '';
 
@@ -111,11 +112,17 @@ function getStaticRune(runeId, version = '7.23.1', locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticRunes(version, locale)
 			.then(runes => {
+				let rune;
 				Object.keys(runes.data).forEach(id => {
 					if (runeId === id) {
-						return resolve(runes.data[id]);
+						rune = runes.data[id];
 					}
 				});
+				if (rune) {
+					resolve(rune);
+				} else {
+					throw new RuneByIdException(`Rune with ID ${runeId} not found`, 404);
+				}
 			})
 			.catch(reject);
 	});
