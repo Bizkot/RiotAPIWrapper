@@ -229,6 +229,10 @@ function getPassiveURL(passiveFull) {
 	return urlResolver.getImageURL('passive', version, passiveFull);
 }
 
+function getSummonerSpellURL(summonerSpellFull) {
+	return urlResolver.getImageURL('spell', version, summonerSpellFull);
+}
+
 function initByCdn() {
 	return initializer.initByCdn()
 		.then(v => {
@@ -267,6 +271,7 @@ module.exports = {
 	getChampionSquareURL: getChampionSquareURL,
 	getItemURL: getItemURL,
 	getPassiveURL: getPassiveURL,
+	getSummonerSpellURL: getSummonerSpellURL,
 	initByCdn: initByCdn,
 	initByRegion: initByRegion,
 	initByVersion: initByVersion
