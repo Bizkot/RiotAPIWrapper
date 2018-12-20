@@ -9,6 +9,7 @@ const MasteryByIdException = require('./Exceptions/MasteryByIdException');
 const RuneByIdException = require('./Exceptions/RuneByIdException');
 const ProfileIconByIdException = require('./Exceptions/ProfileIconByIdException');
 const RuneReforgedByIdException = require('./Exceptions/RuneReforgedByIdException');
+const SummonerSpellByIdException = require('./Exceptions/SummonerSpellByIdException');
 
 let version = '';
 
@@ -196,11 +197,17 @@ function getStaticSummonerSpell(summonerSpellId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticSummonerSpells(locale)
 			.then(summonerSpells => {
+				let summonerSpell;
 				Object.keys(summonerSpells.data).forEach(sumonnerSpellName => {
 					if (summonerSpellId === summonerSpells.data[sumonnerSpellName].key) {
-						resolve(summonerSpells.data[sumonnerSpellName]);
+						summonerSpell = summonerSpells.data[sumonnerSpellName];
 					}
 				});
+				if (summonerSpell) {
+					resolve(summonerSpell);
+				} else {
+					throw new SummonerSpellByIdException(`Summoner spell with ID ${summonerSpellId} not found`, 404);
+				}
 			})
 			.catch(reject);
 	});
