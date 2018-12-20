@@ -13,6 +13,32 @@ const SummonerSpellByIdException = require('./Exceptions/SummonerSpellByIdExcept
 
 let version = '';
 
+// ***********************************************
+// 								Initialization
+// ***********************************************
+
+function initByCdn() {
+	return initializer.initByCdn()
+		.then(v => {
+			version = v;
+		});
+}
+
+function initByRegion(region) {
+	return initializer.initByRegion(region)
+		.then(v => {
+			version = v;
+		});
+}
+
+function initByVersion(initVersion) {
+	version = initVersion;
+}
+
+// ***********************************************
+// 									Static data
+// ***********************************************
+
 function loadStaticData(dataFileURL) {
 	return new Promise(function(resolve, reject) {
 		superagent
@@ -213,6 +239,10 @@ function getStaticSummonerSpell(summonerSpellId, locale = 'fr_FR') {
 	});
 }
 
+// ***********************************************
+// 									Image URLs
+// ***********************************************
+
 function getChampionAbilityURL(abilityFull) {
 	return urlResolver.getImageURL('spell', version, abilityFull);
 }
@@ -237,25 +267,10 @@ function getProfileIconURL(profileIconFull) {
 	return urlResolver.getImageURL('profileicon', version, profileIconFull);
 }
 
-function initByCdn() {
-	return initializer.initByCdn()
-		.then(v => {
-			version = v;
-		});
-}
-
-function initByRegion(region) {
-	return initializer.initByRegion(region)
-		.then(v => {
-			version = v;
-		});
-}
-
-function initByVersion(initVersion) {
-	version = initVersion;
-}
-
 module.exports = {
+	initByCdn: initByCdn,
+	initByRegion: initByRegion,
+	initByVersion: initByVersion,
 	getStaticChampions: getStaticChampions,
 	getStaticIndividualChampion: getStaticIndividualChampion,
 	getStaticChampionById: getStaticChampionById,
@@ -276,8 +291,5 @@ module.exports = {
 	getItemURL: getItemURL,
 	getPassiveURL: getPassiveURL,
 	getSummonerSpellURL: getSummonerSpellURL,
-	getProfileIconURL: getProfileIconURL,
-	initByCdn: initByCdn,
-	initByRegion: initByRegion,
-	initByVersion: initByVersion
+	getProfileIconURL: getProfileIconURL
 };
