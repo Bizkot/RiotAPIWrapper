@@ -225,6 +225,10 @@ function getItemURL(itemFull) {
 	return urlResolver.getImageURL('item', version, itemFull);
 }
 
+function getPassiveURL(passiveFull) {
+	return urlResolver.getImageURL('passive', version, passiveFull);
+}
+
 function initByCdn() {
 	return initializer.initByCdn()
 		.then(v => {
@@ -262,6 +266,7 @@ module.exports = {
 	getChampionAbilityURL: getChampionAbilityURL,
 	getChampionSquareURL: getChampionSquareURL,
 	getItemURL: getItemURL,
+	getPassiveURL: getPassiveURL,
 	initByCdn: initByCdn,
 	initByRegion: initByRegion,
 	initByVersion: initByVersion
