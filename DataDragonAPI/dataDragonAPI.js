@@ -233,6 +233,10 @@ function getSummonerSpellURL(summonerSpellFull) {
 	return urlResolver.getImageURL('spell', version, summonerSpellFull);
 }
 
+function getProfileIconURL(profileIconFull) {
+	return urlResolver.getImageURL('profileicon', version, profileIconFull);
+}
+
 function initByCdn() {
 	return initializer.initByCdn()
 		.then(v => {
@@ -272,6 +276,7 @@ module.exports = {
 	getItemURL: getItemURL,
 	getPassiveURL: getPassiveURL,
 	getSummonerSpellURL: getSummonerSpellURL,
+	getProfileIconURL: getProfileIconURL,
 	initByCdn: initByCdn,
 	initByRegion: initByRegion,
 	initByVersion: initByVersion
