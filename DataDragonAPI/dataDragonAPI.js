@@ -5,6 +5,7 @@ const urlResolver = require('./urlResolver');
 const LoadingStaticDataException = require('./Exceptions/LoadingStaticDataException');
 const ChampionByIdException = require('./Exceptions/ChampionByIdException');
 const ItemByIdException = require('./Exceptions/ItemByIdException');
+const MasteryByIdException = require('./Exceptions/MasteryByIdException');
 
 let version = '';
 
@@ -85,11 +86,17 @@ function getStaticMastery(masteryId, version = '7.23.1', locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticMasteries(version, locale)
 			.then(masteries => {
+				let mastery;
 				Object.keys(masteries.data).forEach(id => {
 					if (masteryId === id) {
-						resolve(masteries.data[id]);
+						mastery = masteries.data[id];
 					}
 				});
+				if (mastery) {
+					resolve(mastery);
+				} else {
+					throw new MasteryByIdException(`Mastery with ID ${masteryId} not found`, 404);
+				}
 			})
 			.catch(reject);
 	});
