@@ -11,7 +11,7 @@ function initByCdn() {
 				resolve(res.body[0]);
 			})
 			.catch(err => {
-				reject(new InitializationError(err.message, err.status));
+				reject(new InitializationError('Failed to initialize wrapper', err.status));
 			});
 	});
 }

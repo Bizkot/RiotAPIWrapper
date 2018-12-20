@@ -2,6 +2,7 @@ const superagent = require('superagent');
 const initializer = require('./initializer');
 const urlResolver = require('./urlResolver');
 const LoadingStaticDataException = require('./Exceptions/LoadingStaticDataException');
+const ChampionByIdException = require('./Exceptions/ChampionByIdException');
 
 let version = '';
 
@@ -13,7 +14,7 @@ function loadStaticData(dataFileURL) {
 				resolve(res.body);
 			})
 			.catch(err => {
-				reject(new LoadingStaticDataException(err.message, err.status));
+				reject(new LoadingStaticDataException(`Failed to load static data for URL : ${dataFileURL}`, err.status));
 			});
 	});
 }
@@ -30,13 +31,19 @@ function getStaticIndividualChampion(championName, locale = 'fr_FR') {
 
 function getStaticChampionById(championId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
-		getStaticChampions(version, locale)
+		getStaticChampions(locale)
 			.then(champions => {
+				let champion;
 				Object.keys(champions.data).forEach(championName => {
 					if (championId === champions.data[championName].key) {
-						resolve(champions.data[championName]);
+						champion = champions.data[championName];
 					}
 				});
+				if (champion) {
+					resolve(champion);
+				} else {
+					throw new ChampionByIdException(`Champion with ID ${championId} not found`, 404);
+				}
 			})
 			.catch(reject);
 	});
@@ -49,7 +56,7 @@ function getStaticItems(locale = 'fr_FR') {
 
 function getStaticItem(itemId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
-		getStaticItems(version, locale)
+		getStaticItems(locale)
 			.then(items => {
 				Object.keys(items.data).forEach(id => {
 					if (itemId === id) {
@@ -106,7 +113,7 @@ function getStaticProfileIcons(locale = 'fr_FR') {
 
 function getStaticProfileIcon(iconId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
-		getStaticProfileIcons(version, locale)
+		getStaticProfileIcons(locale)
 			.then(icons => {
 				Object.keys(icons.data).forEach(id => {
 					if (iconId === id) {
@@ -125,7 +132,7 @@ function getStaticRunesReforged(locale = 'fr_FR') {
 
 function getStaticRuneReforged(runeReforgedId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
-		getStaticRunesReforged(version, locale)
+		getStaticRunesReforged(locale)
 			.then(runesReforged => {
 				runesReforged.forEach(rune => {
 					if (runeReforgedId === rune.id) {
@@ -151,7 +158,7 @@ function getStaticSummonerSpells(locale = 'fr_FR') {
 
 function getStaticSummonerSpell(summonerSpellId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
-		getStaticSummonerSpells(version, locale)
+		getStaticSummonerSpells(locale)
 			.then(summonerSpells => {
 				Object.keys(summonerSpells.data).forEach(sumonnerSpellName => {
 					if (summonerSpellId === summonerSpells.data[sumonnerSpellName].key) {
