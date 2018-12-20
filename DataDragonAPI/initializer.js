@@ -4,7 +4,7 @@ const InitializationError = require('./Exceptions/InitializationError');
 
 function initByCdn() {
 	return new Promise((resolve, reject) => {
-		const versionsURL = 'https://ddragon.leagueoflegends.com/api/versios.json';
+		const versionsURL = 'https://ddragon.leagueoflegends.com/api/versions.json';
 		superagent
 			.get(versionsURL)
 			.then(res => {

@@ -1,6 +1,7 @@
 const superagent = require('superagent');
 const initializer = require('./initializer');
 const urlResolver = require('./urlResolver');
+const LoadingStaticDataException = require('./Exceptions/LoadingStaticDataException');
 
 let version = '';
 
@@ -11,13 +12,14 @@ function loadStaticData(dataFileURL) {
 			.then(res => {
 				resolve(res.body);
 			})
-			.catch(reject);
+			.catch(err => {
+				reject(new LoadingStaticDataException(err.message, err.status));
+			});
 	});
 }
 
 function getStaticChampions(locale = 'fr_FR') {
 	const dataFileURL = urlResolver.getStaticDataFileURL('champion', version, locale);
-	console.log(dataFileURL);
 	return loadStaticData(dataFileURL);
 }
 
