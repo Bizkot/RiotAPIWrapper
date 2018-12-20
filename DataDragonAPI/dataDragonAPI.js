@@ -7,6 +7,7 @@ const ChampionByIdException = require('./Exceptions/ChampionByIdException');
 const ItemByIdException = require('./Exceptions/ItemByIdException');
 const MasteryByIdException = require('./Exceptions/MasteryByIdException');
 const RuneByIdException = require('./Exceptions/RuneByIdException');
+const ProfileIconByIdException = require('./Exceptions/ProfileIconByIdException');
 
 let version = '';
 
@@ -137,11 +138,17 @@ function getStaticProfileIcon(iconId, locale = 'fr_FR') {
 	return new Promise(function(resolve, reject) {
 		getStaticProfileIcons(locale)
 			.then(icons => {
+				let profileIcon;
 				Object.keys(icons.data).forEach(id => {
 					if (iconId === id) {
-						return resolve(icons.data[id]);
+						profileIcon = icons.data[id];
 					}
 				});
+				if (profileIcon) {
+					resolve(profileIcon);
+				} else {
+					throw new ProfileIconByIdException(`Profile icon with ID ${iconId} not found`, 404);
+				}
 			})
 			.catch(reject);
 	});
